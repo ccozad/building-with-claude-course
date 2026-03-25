@@ -143,3 +143,19 @@ response = client.messages.create(
       - Creative writing
       - Marketing content
       - Joke generation
+
+```python
+def chat(messages, system_prompt=None, temperature=0.7):
+    params = {
+        "model": model,
+        "max_tokens": 1000,
+        "messages": messages,
+        "temperature": temperature
+    }
+
+    if system_prompt:
+        params["system"] = system_prompt
+
+    response = client.messages.create(**params)
+    return response.content[0].text
+```
