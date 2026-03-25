@@ -96,3 +96,23 @@ while not done:
         add_assistant_message(messages, response)
         print(f"Assistant: {response}")
 ```
+
+- System prompts provide the model guidance on how to respond
+- System prompts are passed into the create message call
+
+```python
+system_prompt ="""
+You are a patient math tutor. 
+Do not directly  answer a student's questions. 
+Guide them to a solution step by step.
+"""
+
+#...
+
+response = client.messages.create(
+        model=model,
+        max_tokens=1000,
+        messages=messages,
+        system=system_prompt
+    )
+"""
