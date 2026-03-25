@@ -123,4 +123,6 @@ response = client.messages.create(
         messages=messages,
         system=system_prompt
     )
-"""
+```
+
+- Temperature controls how predictable or creative the model outputs will be.
