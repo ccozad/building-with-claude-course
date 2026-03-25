@@ -5,7 +5,7 @@ from anthropic import Anthropic
 
 client = Anthropic()
 model = "claude-sonnet-4-0"
-system_prompt ="""
+math_tutor_system_prompt ="""
 You are a patient math tutor. 
 Do not directly  answer a student's questions. 
 Guide them to a solution step by step.
@@ -25,7 +25,7 @@ def add_assistant_message(messages, text):
     }
     messages.append(assistant_message)
 
-def chat(messages):
+def chat(messages, system_prompt=None):
     response = client.messages.create(
         model=model,
         max_tokens=1000,
@@ -43,6 +43,7 @@ while not done:
         print("Exiting chat.")
     else:
         add_user_message(messages, user_input)
-        response = chat(messages)
+        print("Assistant is thinking...")
+        response = chat(messages, system_prompt=math_tutor_system_prompt)
         add_assistant_message(messages, response)
         print(f"Assistant: {response}")
