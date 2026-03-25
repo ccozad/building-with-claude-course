@@ -26,12 +26,16 @@ def add_assistant_message(messages, text):
     messages.append(assistant_message)
 
 def chat(messages, system_prompt=None):
-    response = client.messages.create(
-        model=model,
-        max_tokens=1000,
-        messages=messages,
-        system=system_prompt
-    )
+    params = {
+        "model": model,
+        "max_tokens": 1000,
+        "messages": messages
+    }
+
+    if system_prompt:
+        params["system"] = system_prompt
+
+    response = client.messages.create(**params)
     return response.content[0].text
 
 messages = []
