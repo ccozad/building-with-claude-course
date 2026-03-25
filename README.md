@@ -28,7 +28,7 @@ Course work for https://anthropic.skilljar.com/claude-with-the-anthropic-api
 1. [Intro](/intro.py) Minimal example to confirm depedendcies and API key
 2. [Multi-turn](/multi-turn.py) Manage context over multiple model calls
 3. [Chat Bot](/chat-bot.py) A practical example of context management and user input
-4. [System Prompt](/system-prompt.py) Control the voice that the model responds with
+4. [System Prompt](/system-prompt.py) Control how the model responds
 
 # Course Notes
 
