@@ -33,6 +33,7 @@ Course work for https://anthropic.skilljar.com/claude-with-the-anthropic-api
 6. [Temperature](/temperature.py) Use the temperature setting to control the randmoness of responses
 7. [Streaming](/streaming.py) Stream intermediate results to improve UX
 8. [Structured Data](/structured-data.py) Capture structured data like JSON with a pre-fill response and stop sequences
+9. [Generate Eval Data](/generate-eval-dataset.py) Generate test data for evaluations using multishot prompts and structured data responses
 
 # Course Notes
 
@@ -244,3 +245,35 @@ print(f"Assistant: {response}")
 - Feed through Claude
 - Feed through a grader
 - Change prompt and repeat
+
+# Generate Evaluations
+
+- Claude can be used to generate evaluation datasets using multishot prompts and structured output.
+
+```python
+def generate_dataset():
+    prompt = """
+Generate an evaluation dataset for a prompt evaluation. The dataset will be used to evaluate prompts that generate Python, JSON, or Regex specifically for AWS-related tasks. Generate an array of JSON objects, each representing task that requires Python, JSON, or a Regex to complete.
+
+Example output:
+```json
+[
+  {
+    "task": "Description of task",
+  },
+  ...additional
+]
+```
+
+* Focus on tasks that can be solved by writing a single Python function, a single JSON object, or a single regex
+* Focus on tasks that do not require writing much code
+
+Please generate 3 objects.
+"""
+
+    messages = []
+    add_user_message(messages, prompt)
+    add_assistant_message(messages, "```json")
+    response = chat(messages, stop_sequences=["```"])
+    return json.loads(response)
+```
