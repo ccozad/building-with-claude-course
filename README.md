@@ -32,6 +32,7 @@ Course work for https://anthropic.skilljar.com/claude-with-the-anthropic-api
 5. [Concise Code](/concise-code.py) A practical example of using a system prompt to influence the type of code that the model generates
 6. [Temperature](/temperature.py) Use the temperature setting to control the randmoness of responses
 7. [Streaming](/streaming.py) Stream intermediate results to improve UX
+8. [Structured Data](/structured-data.py) Capture structured data like JSON with a pre-fill response and stop sequences
 
 # Course Notes
 
@@ -186,4 +187,30 @@ with client.messages.stream(
         # Write the final message to a file
         with open("final_message.txt", "w") as f:
             f.write(final_message.content[0].text)
+```
+
+- Message pre-filling and stop sequences can be combined to output only structured data
+
+```python
+def json_chat(messages, system_prompt=None):
+    params = {
+        "model": model,
+        "max_tokens": 1000,
+        "messages": messages,
+        "stop_sequences": ["```"]
+    }
+
+    if system_prompt:
+        params["system"] = system_prompt
+
+    response = client.messages.create(**params)
+    return response.content[0].text
+```
+
+```python
+add_user_message(messages, user_input)
+add_assistant_message(messages, "```json")
+print("Assistant is thinking...")
+response = json_chat(messages, system_prompt=json_system_prompt)
+print(f"Assistant: {response}")
 ```
