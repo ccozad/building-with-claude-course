@@ -30,7 +30,8 @@ Course work for https://anthropic.skilljar.com/claude-with-the-anthropic-api
 3. [Chat Bot](/chat-bot.py) A practical example of context management and user input
 4. [System Prompt](/system-prompt.py) Control how the model responds
 5. [Concise Code](/concise-code.py) A practical example of using a system prompt to influence the type of code that the model generates
-6. [Temperature](/temperature.py) use the temperature setting to control the randmoness of responses
+6. [Temperature](/temperature.py) Use the temperature setting to control the randmoness of responses
+7. [Streaming](/streaming.py) Stream intermediate results to improve UX
 
 # Course Notes
 
@@ -158,4 +159,31 @@ def chat(messages, system_prompt=None, temperature=0.7):
 
     response = client.messages.create(**params)
     return response.content[0].text
+```
+
+- Streaming mode allows the model to return data in chuncks as it is generated
+- Common streaming events include:
+   - **MessageStart** A new message is being sent
+   - **ContentBlockStart** Start of a new block containing text, tool use, or other content
+   - **ContentBlockDelta** Chunks of the actual generated text
+   - **ContentBlockStop** The current content block has been completed
+   - **MessageDelta** The current message is complete
+   - **MessageStop** End of information about the current message
+- We can stream the data for better UX and still capture the full message from the completed stream
+
+```python
+add_user_message(messages, user_input)
+print("Assistant is thinking...")
+with client.messages.stream(
+    model=model,
+    max_tokens=1000,
+    messages=messages
+) as stream:
+    for text in stream.text_stream:
+        print(text, end="")
+            
+        final_message = stream.get_final_message()
+        # Write the final message to a file
+        with open("final_message.txt", "w") as f:
+            f.write(final_message.content[0].text)
 ```
