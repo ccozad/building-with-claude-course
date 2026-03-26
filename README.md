@@ -36,6 +36,8 @@ Course work for https://anthropic.skilljar.com/claude-with-the-anthropic-api
 
 # Course Notes
 
+## Intro
+
 - We create an Anthropic client using a funded API key and the model we want to use.
 
 ```python
@@ -60,6 +62,8 @@ message = client.messages.create(
 
 print(message.content[0].text)
 ```
+
+## Multi-turn
 
 - Questions and responses are not stored between API calls.
 - The caller is responsible for tracking state and passing in the full context with each call to the model.
@@ -128,6 +132,8 @@ response = client.messages.create(
     )
 ```
 
+## Temperature
+
 - Temperature controls how predictable or creative the model outputs will be.
 - Temperature ranges:
    - Low (0.0-0.3)
@@ -162,6 +168,8 @@ def chat(messages, system_prompt=None, temperature=0.7):
     return response.content[0].text
 ```
 
+## Streaming
+
 - Streaming mode allows the model to return data in chuncks as it is generated
 - Common streaming events include:
    - **MessageStart** A new message is being sent
@@ -189,6 +197,8 @@ with client.messages.stream(
             f.write(final_message.content[0].text)
 ```
 
+## Structured Data
+
 - Message pre-filling and stop sequences can be combined to output only structured data
 
 ```python
@@ -214,3 +224,21 @@ print("Assistant is thinking...")
 response = json_chat(messages, system_prompt=json_system_prompt)
 print(f"Assistant: {response}")
 ```
+
+# Prompt Evaluation
+
+- Prompt engineering is a set of best practices and guidance to improve your prompts
+   - Multishot prompting
+   - Structuring with XML tags
+- Prompt evaluation is automated testing to measure how well your prompts work
+   - Test agent expected answers
+   - Compile different versions of the same prompt
+   - Review outputs for errors
+
+# Typical Eval Workflow
+
+- Draft prompt
+- Create an eval dataset
+- Feed through Claude
+- Feed through a grader
+- Change prompt and repeat
