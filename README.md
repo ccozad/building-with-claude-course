@@ -112,6 +112,8 @@ while not done:
         print(f"Assistant: {response}")
 ```
 
+# System Prompts
+
 - System prompts provide the model guidance on how to respond
 - System prompts are passed into the create message call
 
