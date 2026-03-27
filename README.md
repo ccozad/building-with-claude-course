@@ -34,6 +34,7 @@ Course work for https://anthropic.skilljar.com/claude-with-the-anthropic-api
 7. [Streaming](/streaming.py) Stream intermediate results to improve UX
 8. [Structured Data](/structured-data.py) Capture structured data like JSON with a pre-fill response and stop sequences
 9. [Generate Eval Data](/generate-eval-dataset.py) Generate test data for evaluations using multishot prompts and structured data responses
+10. [Evaluation System](/eval_system.py) A pipeline for combining prompts with test cases, running them against the model and grading the result.
 
 # Course Notes
 
@@ -277,3 +278,34 @@ Please generate 3 objects.
     response = chat(messages, stop_sequences=["```"])
     return json.loads(response)
 ````
+
+# Evaluation Systems
+
+- Evaluation systems provide a pipeline for combining a prompt with a test case, generating a response from the model and a grading system for the output.
+- The is no one right way to implement an evaluation pipeline
+
+# Grading
+
+- Code
+    - Programatically evaluate the result
+    - Useful for:
+        - Checking output length
+        - Verifying outpt does/doesn't have certain words
+        - Syntax validation
+        - Readability scores
+- Model
+    - Ask a model to assign a score to the output, or compare two versions
+    - Useful for:
+        - Response quality
+        - Quality of instruction following
+        - Completeness
+        - Helpfulness
+        - Safety
+- Human
+    - Ask a human to assign a score to the output, or compare two versions
+    - Useful for:
+        - General response quality
+        - Comprehensiveness
+        - Depth
+        - Conciseness
+        - Relevance
