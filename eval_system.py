@@ -1,5 +1,7 @@
 import json
 import time
+import ast
+import re
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -21,6 +23,37 @@ def add_assistant_message(messages, text):
         "content": text
     }
     messages.append(assistant_message)
+
+def validate_json(text):
+    try:
+        json.loads(text.strip())
+        return 10
+    except json.JSONDecodeError:
+        return 0
+
+def validate_python(text):
+    try:
+        ast.parse(text.strip())
+        return 10
+    except SyntaxError:
+        return 0
+
+def validate_regex(text):
+    try:
+        re.compile(text.strip())
+        return 10
+    except re.error:
+        return 0
+
+def grade_syntax(response, test_case):
+    if test_case.get("format") == "json":
+        return validate_json(response)
+    elif test_case.get("format") == "python":
+        return validate_python(response)
+    elif test_case.get("format") == "regex":
+        return validate_regex(response)
+    else:
+        return 0
 
 def grade_by_model(test_case, output):
     eval_prompt = f"""
@@ -54,7 +87,7 @@ def run_prompt(prompt, system_prompt, test_case):
     prompt = f"{prompt}\n\n{test_case['task']}"
     messages = []
     add_user_message(messages, prompt)
-    add_assistant_message(messages, "```json")
+    add_assistant_message(messages, "```code")
     response = chat(messages, system_prompt=system_prompt, stop_sequences=["```"])
     return response
 
@@ -63,8 +96,11 @@ def run_test_case(prompt, system_prompt, test_case):
     output = run_prompt(prompt, system_prompt, test_case)
     
     model_grade = grade_by_model(test_case, output)
-    score = model_grade.get("score", 0)
+    model_score = model_grade.get("score", 0)
     reasoning = model_grade.get("reasoning", "")
+
+    code_grade = grade_syntax(output, test_case)
+    score = (model_score + code_grade) / 2
 
     return {
         "output": output,
@@ -102,13 +138,15 @@ def run_evaluations(prompt, system_prompt=None, test_cases_file=None):
             start_time = time.time()
             result = run_test_case(prompt, system_prompt, test_case)
             end_time = time.time()
-            print(f" Done. (Time taken: {end_time - start_time:.2f} seconds)")
+            print(f" Done. (Elapsed Time: {end_time - start_time:.2f} seconds)")
             results.append(result)
     return results
 
 if __name__ == "__main__":
     system_prompt = """
-Only return the code solution to the user's task. Do not include any explanations or reasoning, just return the code.
+- Only return the code solution to the user's task. 
+- Do not include any explanations or reasoning, just return the code.
+- Code responses should only be JSON, plain regex or Python
 """
     print(f"System Prompt: {system_prompt}")
     prompt = "Please solve the following task:"
@@ -119,6 +157,7 @@ Only return the code solution to the user's task. Do not include any explanation
     print(f"Details:")
     for result in results:
         print(f"Test Case: {result['test_case']['task']}")
+        print(f"Format: {result['test_case']['format']}")
         print(f"Output: {result['output']}")
         print(f"Score: {result['score']}")
         print(f"Reasoning: {result['reasoning']}")

@@ -50,6 +50,7 @@ Example output:
 [
   {
     "task": "Description of task",
+    "format": "python|json|regex"
   },
   ...additional
 ]

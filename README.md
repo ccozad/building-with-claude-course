@@ -343,3 +343,40 @@ def grade_by_model(test_case, output):
     eval_text = chat(messages, stop_sequences=["```"])
     return json.loads(eval_text)
 ```
+
+# Grade by Code
+
+- Use code based mechanisms such as compilers and syntax checkers to evaluate results
+
+```python
+def validate_json(text):
+    try:
+        json.loads(text.strip())
+        return 10
+    except json.JSONDecodeError:
+        return 0
+
+def validate_python(text):
+    try:
+        ast.parse(text.strip())
+        return 10
+    except SyntaxError:
+        return 0
+
+def validate_regex(text):
+    try:
+        re.compile(text.strip())
+        return 10
+    except re.error:
+        return 0
+
+def grade_syntax(response, test_case):
+    if test_case.get("format") == "json":
+        return validate_json(response)
+    elif test_case.get("format") == "python":
+        return validate_python(response)
+    elif test_case.get("format") == "regex":
+        return validate_regex(response)
+    else:
+        return 0
+```
