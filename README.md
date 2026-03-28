@@ -232,6 +232,9 @@ print(f"Assistant: {response}")
 # Prompt Evaluation
 
 - Prompt engineering is a set of best practices and guidance to improve your prompts
+   - Being clear
+   - Being specific
+   - Output formatting
    - Multishot prompting
    - Structuring with XML tags
 - Prompt evaluation is automated testing to measure how well your prompts work

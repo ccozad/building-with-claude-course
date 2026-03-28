@@ -1,14 +1,17 @@
 [
   {
-    "task": "Parse an AWS S3 bucket name from an S3 URI in the format 's3://bucket-name/key/path'",
-    "format": "regex"
+    "task": "Parse an AWS S3 bucket name from a full S3 URI (e.g., 's3://my-bucket-name/path/to/object') and extract just the bucket name",
+    "format": "regex",
+    "solution_criteria": "The regex should correctly extract the bucket name between 's3://' and the first '/', handling bucket names with hyphens and numbers, and should return only the bucket name without the protocol or path"
   },
   {
-    "task": "Create a JSON CloudFormation template snippet for an AWS Lambda IAM execution role with basic S3 read permissions",
-    "format": "json"
+    "task": "Write a Python function that takes an AWS CloudWatch log event JSON object and returns a list of all error messages (lines containing 'ERROR')",
+    "format": "python",
+    "solution_criteria": "The function should accept a log event dictionary, extract the log message field, split by newlines, filter for lines containing 'ERROR' (case-insensitive), and return a list of matching error messages"
   },
   {
-    "task": "Write a Python function that takes an AWS EC2 instance ID string and returns True if it matches the valid format (i-followed by 8 or 17 hexadecimal characters)",
-    "format": "python"
+    "task": "Generate a JSON object representing an AWS IAM policy that allows read-only access to all objects in a specific S3 bucket named 'my-data-bucket'",
+    "format": "json",
+    "solution_criteria": "The JSON should be a valid IAM policy with correct structure including Version, Statement array, Effect set to 'Allow', Action limited to s3:GetObject and s3:ListBucket, and Resource ARNs specific to 'my-data-bucket'"
   }
 ]

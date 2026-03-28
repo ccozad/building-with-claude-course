@@ -64,6 +64,11 @@ def grade_by_model(test_case, output):
     {test_case['task']}
     </task>
 
+    Solution Criteria:
+    <criteria>
+    {test_case['solution_criteria']}
+    </criteria>
+
     Solution to Evaluate:
     <solution>
     {output}
@@ -146,7 +151,7 @@ if __name__ == "__main__":
     system_prompt = """
 - Only return the code solution to the user's task. 
 - Do not include any explanations or reasoning, just return the code.
-- Code responses should only be JSON, plain regex or Python
+- Responses should only be JSON, plain Regex or Python
 """
     print(f"System Prompt: {system_prompt}")
     prompt = "Please solve the following task:"
