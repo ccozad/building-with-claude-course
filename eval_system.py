@@ -1,4 +1,5 @@
 import json
+import time
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -97,7 +98,11 @@ def run_evaluations(prompt, system_prompt=None, test_cases_file=None):
     with open(test_cases_file, "r") as f:
         test_cases = json.load(f)
         for test_case in test_cases:
+            print(f"Running test case: {test_case['task']}...")
+            start_time = time.time()
             result = run_test_case(prompt, system_prompt, test_case)
+            end_time = time.time()
+            print(f" Done. (Time taken: {end_time - start_time:.2f} seconds)")
             results.append(result)
     return results
 
@@ -109,7 +114,9 @@ Only return the code solution to the user's task. Do not include any explanation
     prompt = "Please solve the following task:"
     print(f"Prompt: {prompt}")
     results = run_evaluations(prompt, system_prompt, "eval_dataset.json")
-    print(f"Results:")
+    average_score = sum(result['score'] for result in results) / len(results)
+    print(f"Average Score: {average_score:.2f}/10")
+    print(f"Details:")
     for result in results:
         print(f"Test Case: {result['test_case']['task']}")
         print(f"Output: {result['output']}")
