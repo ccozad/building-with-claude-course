@@ -309,3 +309,37 @@ Please generate 3 objects.
         - Depth
         - Conciseness
         - Relevance
+
+# Grade by Model
+
+- Don't just ask the model for a score, ask for positive and negative reasoning
+
+```python
+def grade_by_model(test_case, output):
+    eval_prompt = f"""
+    You are an expert code reviewer. Evaluate this AI-generated solution.
+    
+    Original Task:
+    <task>
+    {test_case['task']}
+    </task>
+
+    Solution to Evaluate:
+    <solution>
+    {output}
+    </solution>
+    
+    Provide your evaluation as a structured JSON object with:
+    - "strengths": An array of 1-3 key strengths
+    - "weaknesses": An array of 1-3 key areas for improvement  
+    - "reasoning": A concise explanation of your assessment
+    - "score": A number between 1-10
+    """
+    
+    messages = []
+    add_user_message(messages, eval_prompt)
+    add_assistant_message(messages, "```json")
+    
+    eval_text = chat(messages, stop_sequences=["```"])
+    return json.loads(eval_text)
+```
