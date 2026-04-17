@@ -35,6 +35,7 @@ Course work for https://anthropic.skilljar.com/claude-with-the-anthropic-api
 8. [Structured Data](/structured-data.py) Capture structured data like JSON with a pre-fill response and stop sequences
 9. [Generate Eval Data](/generate-eval-dataset.py) Generate test data for evaluations using multishot prompts and structured data responses
 10. [Evaluation System](/eval_system.py) A pipeline for combining prompts with test cases, running them against the model and grading the result.
+11. [Prompting](/prompting.py) Use evals to show how different prompting techniques can produce better responses
 
 # Course Notes
 
@@ -383,3 +384,11 @@ def grade_syntax(response, test_case):
     else:
         return 0
 ```
+
+# Prompt Engineering Process
+
+1. Set a goal
+2. Create an initial prompt
+3. Eval the prompt
+4. Apply prompt engineering technique
+5. Re-eval to verify better performance, repeat step 4
