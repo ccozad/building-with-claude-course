@@ -75,6 +75,128 @@ Generate a one-day meal plan for an athlete that meets their dietary restriction
     chat_model.add_user_message(messages, prompt)
     return chat_model.chat(messages)
 
+def one_shot_prompt(prompt_inputs):
+    prompt = f"""
+Generate a one-day meal plan for an athlete that meets their dietary restrictions.
+
+<athlete_information>
+- Height: {prompt_inputs["height"]}
+- Weight: {prompt_inputs["weight"]}
+- Goal: {prompt_inputs["goal"]}
+- Dietary restrictions: {prompt_inputs["restrictions"]}
+</athlete_information>
+
+<guidelines>
+1. Include accurate daily calorie amount
+2. Show protein, fat, and carb amounts  
+3. Specify when to eat each meal
+4. Use only foods that fit restrictions
+5. List all portion sizes in grams
+6. Keep budget-friendly if mentioned
+</guidelines>
+
+<ideal_output>
+# One-Day Marathon Training Meal Plan
+**Target: 3,200 calories | Carbs: 520g | Protein: 120g | Fat: 80g**
+
+---
+
+## BREAKFAST (7:00 AM) - 850 calories
+**Carb-Loading Oatmeal Bowl**
+- Rolled oats: 100g
+- Banana: 150g
+- Honey: 40g
+- Whole milk: 250ml
+- Almonds: 25g
+- Berries (blueberries): 80g
+
+**Macros:** Carbs 120g | Protein 22g | Fat 18g
+
+---
+
+## MID-MORNING SNACK (10:00 AM) - 450 calories
+**Pre-Run Fuel**
+- White bread: 80g
+- Peanut butter: 30g
+- Apple: 180g
+- Energy drink (sports): 400ml
+
+**Macros:** Carbs 95g | Protein 12g | Fat 10g
+
+---
+
+## LUNCH (1:00 PM) - 950 calories
+**Carbohydrate-Rich Pasta**
+- Spaghetti (cooked): 250g
+- Lean ground turkey: 150g
+- Tomato-based pasta sauce: 200ml
+- Olive oil: 15ml
+- Parmesan cheese: 20g
+- Side salad with mixed greens: 100g
+- Breadroll: 60g
+
+**Macros:** Carbs 145g | Protein 45g | Fat 24g
+
+---
+
+## POST-RUN SNACK (4:00 PM) - 400 calories
+**Recovery Shake**
+- Greek yogurt: 200g
+- White rice cakes: 50g
+- Honey: 25g
+- Whole milk: 200ml
+- Protein powder (whey): 25g
+
+**Macros:** Carbs 75g | Protein 28g | Fat 6g
+
+---
+
+## DINNER (7:00 PM) - 550 calories
+**Salmon with Rice**
+- Salmon fillet: 150g
+- White rice (cooked): 200g
+- Broccoli: 150g
+- Butter: 10ml
+- Sea salt & lemon: to taste
+
+**Macros:** Carbs 85g | Protein 45g | Fat 12g
+
+---
+
+## EVENING SNACK (9:30 PM) - 100 calories
+- Banana: 120g
+
+**Macros:** Carbs 27g | Protein 1g | Fat 0.3g
+
+---
+
+## **DAILY TOTALS**
+| Nutrient | Amount |
+|----------|--------|
+| **Calories** | **3,300** |
+| **Carbohydrates** | **547g (66%)** |
+| **Protein** | **153g (18%)** |
+| **Fat** | **70g (19%)** |
+
+---
+
+## HYDRATION NOTES
+- 3-4 liters of water throughout the day
+- 400ml sports drink during run
+- Electrolyte drink post-run (included in snack)
+
+**Budget estimate:** $12-14 USD | Suitable for 3-hour+ marathon training sessions",
+
+</ideal_output>
+
+The ideal output comprehensively meets all mandatory requirements: it provides a daily caloric total (3,300), complete macronutrient breakdown (carbs/protein/fat with percentages), and includes all meals with exact foods, portions, and specific timing (7:00 AM through 9:30 PM). It exceeds the 3,000+ calorie target and achieves the 55-65% carbohydrate range at 66%. Hydration is addressed with specific recommendations (3-4 liters water, sports drink timing). The plan includes breakfast, lunch, dinner, and three snacks. The only minor considerations are that protein is slightly elevated for a carb-loading day and the presentation, while excellent for clarity, is not minimalist. However, these do not violate any stated criteria. The solution directly addresses the athlete's marathon training goal with appropriate carbohydrate loading strategy."
+
+"""
+    messages = []
+    chat_model.add_user_message(messages, prompt)
+    return chat_model.chat(messages)
+
+
 if __name__ == "__main__":
     load_dotenv()
 
@@ -104,6 +226,11 @@ if __name__ == "__main__":
             "function": xml_prompt,
             "json_output_file": "xml_prompt_output.json",
             "html_output_file": "xml_prompt_output.html"
+        },
+        "one_shot_prompt": {
+            "function": one_shot_prompt,
+            "json_output_file": "one_shot_prompt_output.json",
+            "html_output_file": "one_shot_prompt_output.html"
         }
     }
 
