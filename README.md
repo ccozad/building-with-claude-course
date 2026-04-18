@@ -406,4 +406,5 @@ def grade_syntax(response, test_case):
    - List qualities that the output should have
    - Provide steps the model should follow
 - Structure with XML tags
+   - Use XML tags to separate distinct portions of the prompt
 - Provide examples
