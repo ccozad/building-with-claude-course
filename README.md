@@ -392,3 +392,16 @@ def grade_syntax(response, test_case):
 3. Eval the prompt
 4. Apply prompt engineering technique
 5. Re-eval to verify better performance, repeat step 4
+
+# Prompt Engineering Techniques
+
+- Be clear
+   - Use simple language
+   - State what you want explicitly
+   - Lead your prompt with a simple statement of the model's task.
+- Be direct
+   - Use instructions not questions
+   - Use direct action verbs
+- Be specific
+- Structure with XML tags
+- Provide examples
