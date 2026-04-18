@@ -30,6 +30,27 @@ Generate a one-day meal plan for an athlete that meets their dietary restriction
     chat_model.add_user_message(messages, prompt)
     return chat_model.chat(messages)
 
+def specific_prompt(prompt_inputs):
+    prompt = f"""
+Generate a one-day meal plan for an athlete that meets their dietary restrictions.
+
+- Height: {prompt_inputs["height"]}
+- Weight: {prompt_inputs["weight"]}
+- Goal: {prompt_inputs["goal"]}
+- Dietary restrictions: {prompt_inputs["restrictions"]}
+
+Guidelines:
+1. Include accurate daily calorie amount
+2. Show protein, fat, and carb amounts  
+3. Specify when to eat each meal
+4. Use only foods that fit restrictions
+5. List all portion sizes in grams
+6. Keep budget-friendly if mentioned
+"""
+    messages = []
+    chat_model.add_user_message(messages, prompt)
+    return chat_model.chat(messages)
+
 
 
 if __name__ == "__main__":
@@ -51,6 +72,11 @@ if __name__ == "__main__":
             "function": clear_and_direct_prompt,
             "json_output_file": "clear_and_direct_prompt_output.json",
             "html_output_file": "clear_and_direct_prompt_output.html"
+        },
+        "specific_prompt": {
+            "function": specific_prompt,
+            "json_output_file": "specific_prompt_output.json",
+            "html_output_file": "specific_prompt_output.html"
         }
     }
 

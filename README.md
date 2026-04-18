@@ -403,5 +403,7 @@ def grade_syntax(response, test_case):
    - Use instructions not questions
    - Use direct action verbs
 - Be specific
+   - List qualities that the output should have
+   - Provide steps the model should follow
 - Structure with XML tags
 - Provide examples
