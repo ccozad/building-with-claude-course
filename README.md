@@ -408,3 +408,13 @@ def grade_syntax(response, test_case):
 - Structure with XML tags
    - Use XML tags to separate distinct portions of the prompt
 - Provide examples
+
+# Tool Use
+
+By default, Claude only knows information from its training data and can't access current events, real-time data, or external systems. Tool use solves this limitation by creating a structured way for Claude to request and receive fresh information.
+
+Flow
+1. Initial Request: You send Claude a question along with instructions on how to get extra data from external sources
+2. Tool Request: Claude analyzes the question and decides it needs additional information, then asks for specific details about what data it needs
+3. Data Retrieval: Your server runs code to fetch the requested information from external APIs or databases
+4. Final Response: You send the retrieved data back to Claude, which then generates a complete response using both the original question and the fresh data
