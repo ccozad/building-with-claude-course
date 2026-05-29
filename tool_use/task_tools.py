@@ -1,7 +1,9 @@
+from anthropic.types import ToolParam
+
 def set_reminder(content, timestamp):
     print(f"----\nSetting the following reminder for {timestamp}:\n{content}\n----")
 
-set_reminder_schema = {
+set_reminder_schema = ToolParam({
     "name": "set_reminder",
     "description": "Creates a timed reminder that will notify the user at the specified time with the provided content. This tool schedules a notification to be delivered to the user at the exact timestamp provided. It should be used when a user wants to be reminded about something specific at a future point in time. The reminder system will store the content and timestamp, then trigger a notification through the user's preferred notification channels (mobile alerts, email, etc.) when the specified time arrives. Reminders are persisted even if the application is closed or the device is restarted. Users can rely on this function for important time-sensitive notifications such as meetings, tasks, medication schedules, or any other time-bound activities.",
     "input_schema": {
@@ -18,4 +20,4 @@ set_reminder_schema = {
         },
         "required": ["content", "timestamp"],
     },
-}
+})

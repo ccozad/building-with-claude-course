@@ -1,6 +1,6 @@
 import time_tools
 import task_tools
-import batch_tools
+#import batch_tools
 
 # Helper functions
 def add_user_message(messages, text):
@@ -37,3 +37,24 @@ if __name__ == "__main__":
 
     client = Anthropic()
     model = "claude-haiku-4-5"
+
+    messages = []
+
+    messages.append({
+        "role": "user",
+        "content": "What is the exact time, formatted as HH:MM:SS?"
+    })
+
+    response = client.messages.create(
+        model=model,
+        messages=messages,
+        tools=[time_tools.get_current_datetime_schema],
+        max_tokens=1000,
+    )
+
+    messages.append({
+        "role": "assistant",
+        "content": response.content
+    })
+
+    print(messages)
