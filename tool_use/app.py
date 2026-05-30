@@ -92,7 +92,11 @@ def run_tools(message):
 
 def run_conversation(messages):
     while True:
-        response = chat(messages, tools=[time_tools.get_current_datetime_schema])
+        response = chat(messages, tools=[
+            time_tools.get_current_datetime_schema,
+            time_tools.add_duration_to_datetime_schema,
+            task_tools.set_reminder_schema
+        ])
         add_assistant_message(messages, response)
         print(text_from_message(response))
         
@@ -119,7 +123,7 @@ if __name__ == "__main__":
 
     messages.append({
         "role": "user",
-        "content": "What is the current time, formatted as HH:MM:SS? Also, what is the current time in SS format?"
+        "content": "Set a reminder for my doctor's appointment 17 days after jan 1, 2050 at 10am."
     })
 
     run_conversation(messages)
