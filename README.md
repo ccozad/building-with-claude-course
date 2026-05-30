@@ -418,3 +418,10 @@ Flow
 2. Tool Request: Claude analyzes the question and decides it needs additional information, then asks for specific details about what data it needs
 3. Data Retrieval: Your server runs code to fetch the requested information from external APIs or databases
 4. Final Response: You send the retrieved data back to Claude, which then generates a complete response using both the original question and the fresh data
+
+Stop reasons
+
+- `tool_use` Claude has determined it needs to call a tool
+- `end_turn` Claude has finished generating its assistant message
+- `max_tokens` Claude has hit the token limit and can't generate any more output
+- `stop_sequence` Claude has encountered one of your provided stop sequences
