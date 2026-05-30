@@ -2,18 +2,26 @@ import time_tools
 import task_tools
 #import batch_tools
 
+from anthropic.types import Message
+
 # Helper functions
-def add_user_message(messages, text):
-    user_message = {"role": "user", "content": text}
+def add_user_message(messages, message):
+    user_message = {
+        "role": "user", 
+        "content": message.content if isinstance(message, Message) else message
+    }
     messages.append(user_message)
 
 
-def add_assistant_message(messages, text):
-    assistant_message = {"role": "assistant", "content": text}
+def add_assistant_message(messages, message):
+    assistant_message = {
+        "role": "assistant",
+        "content": message.content if isinstance(message, Message) else message
+    }
     messages.append(assistant_message)
 
 
-def chat(messages, system=None, temperature=1.0, stop_sequences=[]):
+def chat(messages, system=None, temperature=1.0, stop_sequences=[], tools=None):
     params = {
         "model": model,
         "max_tokens": 1000,
@@ -25,8 +33,16 @@ def chat(messages, system=None, temperature=1.0, stop_sequences=[]):
     if system:
         params["system"] = system
 
+    if tools:
+        params["tools"] = tools
+
     message = client.messages.create(**params)
-    return message.content[0].text
+    return message
+
+def text_from_message(message):
+    return "\n".join(
+        [block.text for block in message.content if block.type == "text"]
+    )
 
 if __name__ == "__main__":
     # Load env variables and create client
@@ -82,5 +98,5 @@ if __name__ == "__main__":
         "role": "assistant",
         "content": response.content
     })
-    
+
     print(messages)
