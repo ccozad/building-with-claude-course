@@ -57,4 +57,30 @@ if __name__ == "__main__":
         "content": response.content
     })
 
+    current_time = time_tools.get_current_datetime(**response.content[0].input)
+
+    messages.append({
+        "role": "user",
+        "content" :[
+            {
+                "type": "tool_result",
+                "tool_use_id": response.content[0].id,
+                "content": current_time,
+                "is_error": False
+            }
+        ]
+    })
+
+    response = client.messages.create(
+        model=model,
+        messages=messages,
+        tools=[time_tools.get_current_datetime_schema],
+        max_tokens=1000,
+    )
+
+    messages.append({
+        "role": "assistant",
+        "content": response.content
+    })
+    
     print(messages)
