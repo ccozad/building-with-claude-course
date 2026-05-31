@@ -455,3 +455,18 @@ Challenges
 - Need a search mechanism to find "relevant" chunks
 - Included chunks might not contain all the context Claude needs
 - Many ways to chunk text - which approach is best?
+
+# Chunking Strategies
+
+- Size based
+   - Divide the text into strings of equal length
+   - Include overlap on each side of the chunk to include context
+   - Easy to implement but might break up related content
+- Structure Based
+   - Dive the text based upon the structure (headers, paragraphs, sections)
+   - Avoids breaking up related content into multiple chunks
+   - Requires us to understand the streucture of the document before hand
+- Semantic Based
+   - Divide text into groups of related sentences or sections
+   - Requires us to understand the meaning of individual sentences
+   - Computationally expensive but more relevant chunks
