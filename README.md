@@ -37,6 +37,7 @@ Course work for https://anthropic.skilljar.com/claude-with-the-anthropic-api
 10. [Evaluation System](/eval_system.py) A pipeline for combining prompts with test cases, running them against the model and grading the result.
 11. [Prompting](/prompting/prompt_runner.py) Use evals to show how different prompting techniques can produce better responses
 12. [Tool Use](/tool_use/app.py) Offer a set of functions that the language model can request to invoke
+13. [Chunking Approaches](/rag/chunk_demo.py) Different approaches for splitting up text for processing in a RAG pipeline.
 
 # Course Notes
 
