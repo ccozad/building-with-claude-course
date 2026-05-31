@@ -426,3 +426,32 @@ Stop reasons
 - `end_turn` Claude has finished generating its assistant message
 - `max_tokens` Claude has hit the token limit and can't generate any more output
 - `stop_sequence` Claude has encountered one of your provided stop sequences
+
+The text edit tool
+
+- Built directly into Claude
+- Allows Claude to create, read and edit files and directories
+- Only the schema is built in, you have to provide the implementation
+
+# Retrieval Augmented Generation
+
+Why not just put everything from a large document into the prompt?
+
+- There's a hard limit on prompt length - your document might be too long
+- Claude becomes less effective with very long prompts
+- Larger prompts cost more to process
+- Larger prompts take longer to process
+
+Solution: Break the document into many chunks. Put chunks relevant to the user's question in the prompt.
+
+Benefits:
+-Claude can focus on only the most relevant content
+- Scales up to very large documents
+- Works with multiple documents
+- Smaller prompts cost less and run faster
+
+Challenges
+- Requires a preprocessing step to chunk documents
+- Need a search mechanism to find "relevant" chunks
+- Included chunks might not contain all the context Claude needs
+- Many ways to chunk text - which approach is best?
