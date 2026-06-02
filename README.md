@@ -39,6 +39,7 @@ Course work for https://anthropic.skilljar.com/claude-with-the-anthropic-api
 12. [Tool Use](/tool_use/app.py) Offer a set of functions that the language model can request to invoke
 13. [Chunking Approaches](/rag/chunk_demo.py) Different approaches for splitting up text for processing in a RAG pipeline.
 14. [Embeddings](/rag/embedding_demo.py) Use VoyageAI to create an embedding from a chunk of text
+15. [RAG](/rag/rag_demo.py) Combine chunking and embeddings with the ChromaDB vector database to find relevant content.
 
 # Course Notes
 
