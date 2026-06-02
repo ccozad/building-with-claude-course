@@ -40,6 +40,7 @@ Course work for https://anthropic.skilljar.com/claude-with-the-anthropic-api
 13. [Chunking Approaches](/rag/chunk_demo.py) Different approaches for splitting up text for processing in a RAG pipeline.
 14. [Embeddings](/rag/embedding_demo.py) Use VoyageAI to create an embedding from a chunk of text
 15. [RAG](/rag/rag_demo.py) Combine chunking and embeddings with the ChromaDB vector database to find relevant content.
+16. [Lexical Search](/rag/enhanced_rag_demo.py) Combine RAG with BM25 key word search for both semantic match and exact match benefits.
 
 # Course Notes
 
@@ -480,3 +481,65 @@ Challenges
 A numerical representation of the meaning contained in some text.
 
 Anthropic does not currently provide embeddings and they recommend using VoyageAI for this task.
+
+`pip3 install voyageai`
+
+```python
+from dotenv import load_dotenv
+import voyageai
+import chunking
+
+def generate_embedding(text, model="voyage-3-large", input_type="query"):
+    result = client.embed([text], model=model, input_type=input_type)
+
+    return result.embeddings[0]
+
+if __name__ == "__main__":
+
+    load_dotenv()
+
+    client = voyageai.Client()
+
+    with open("./report.md", "r") as f:
+        text = f.read()
+
+    chunks = chunking.chunk_by_section(text)
+
+    embedding = generate_embedding(chunks[0])
+    print("Embedding for first chunk:")
+    print(embedding)
+```
+
+# Lexical Search
+
+`pip3 install bm25s[all]`
+
+```python
+import bm25s
+
+# 1. Define your document collection
+documents = [
+    "The quick brown fox jumps over the lazy dog",
+    "Python is an amazing programming language for data science",
+    "BM25 is a ranking function used by search engines to estimate relevance",
+    "Artificial intelligence and machine learning are transforming industries"
+]
+
+# 2. Tokenize your text (breaks strings into words and applies stemming)
+corpus_tokens = bm25s.tokenize(documents, stopwords="english")
+
+# 3. Initialize and fit the BM25 index
+retriever = bm25s.BM25(corpus=documents)
+retriever.index(corpus_tokens)
+
+# 4. Search the index using a query
+query = "python programming search engine"
+query_tokens = bm25s.tokenize(query)
+
+# Retrieve the top 2 most relevant documents
+results, scores = retriever.retrieve(query_tokens, k=2)
+
+# 5. Display results
+for doc, score in zip(results[0], scores[0]):
+    print(f"(Score: {score:.4f}) -> {doc}")
+```
