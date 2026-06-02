@@ -38,6 +38,7 @@ Course work for https://anthropic.skilljar.com/claude-with-the-anthropic-api
 11. [Prompting](/prompting/prompt_runner.py) Use evals to show how different prompting techniques can produce better responses
 12. [Tool Use](/tool_use/app.py) Offer a set of functions that the language model can request to invoke
 13. [Chunking Approaches](/rag/chunk_demo.py) Different approaches for splitting up text for processing in a RAG pipeline.
+14. [Embeddings](/rag/embedding_demo.py) Use VoyageAI to create an embedding from a chunk of text
 
 # Course Notes
 
@@ -471,3 +472,10 @@ Challenges
    - Divide text into groups of related sentences or sections
    - Requires us to understand the meaning of individual sentences
    - Computationally expensive but more relevant chunks
+
+
+# Text Embeddings
+
+A numerical representation of the meaning contained in some text.
+
+Anthropic does not currently provide embeddings and they recommend using VoyageAI for this task.
