@@ -543,3 +543,32 @@ results, scores = retriever.retrieve(query_tokens, k=2)
 for doc, score in zip(results[0], scores[0]):
     print(f"(Score: {score:.4f}) -> {doc}")
 ```
+
+# Extended Thinking
+
+Extended thinking is Claude's advanced reasoning feature that gives the model time to work through complex problems before generating a final response.
+
+With thinking enabled, you get both the reasoning process and the final answer.
+
+The key benefits include:
+
+- Better reasoning capabilities for complex tasks
+- Increased accuracy on difficult problems
+- Transparency into Claude's thought process
+
+However, there are important trade-offs:
+
+- Higher costs (you pay for thinking tokens)
+- Increased latency (thinking takes time)
+- More complex response handling in your code
+
+# Citations
+
+Citations reference specific parts of source documents and show users exactly where each piece of information comes from.
+
+Citations are particularly valuable when:
+
+- Users need to verify information for accuracy
+- You're working with authoritative documents that users should be able to reference
+- Transparency about information sources is critical for your application
+- Users might want to explore the broader context around specific facts
