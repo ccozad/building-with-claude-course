@@ -41,6 +41,8 @@ Course work for https://anthropic.skilljar.com/claude-with-the-anthropic-api
 14. [Embeddings](/rag/embedding_demo.py) Use VoyageAI to create an embedding from a chunk of text
 15. [RAG](/rag/rag_demo.py) Combine chunking and embeddings with the ChromaDB vector database to find relevant content.
 16. [Lexical Search](/rag/enhanced_rag_demo.py) Combine RAG with BM25 key word search for both semantic match and exact match benefits.
+17. [MCP Server](/mcp/mcp_server.py) A server that supports two tools
+18. [MCP Client](/mcp/mcp_server.py) A client to access the MCP server
 
 # Course Notes
 
@@ -572,3 +574,39 @@ Citations are particularly valuable when:
 - You're working with authoritative documents that users should be able to reference
 - Transparency about information sources is critical for your application
 - Users might want to explore the broader context around specific facts
+
+# MCP
+
+Model Contet Protocol provides a standardozed way to expose complex functionality to large language models.
+
+The MCP library has simple annotation mechanism to make a tool available over MCP.
+
+```python
+from pydantic import Field
+from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("DocumentMCP", log_level="ERROR")
+
+docs = {
+    "deposition.md": "This deposition covers the testimony of Angela Smith, P.E.",
+    "report.pdf": "The report details the state of a 20m condenser tower.",
+    "financials.docx": "These financials outline the project's budget and expenditures.",
+    "outlook.pdf": "This document presents the projected future performance of the system.",
+    "plan.md": "The plan outlines the steps for the project's implementation.",
+    "spec.txt": "These specifications define the technical requirements for the equipment.",
+}
+
+@mcp.tool(
+    name="read_doc_contents",
+    description="Read the contents of a document and return it as a string"
+)
+def read_document(
+    doc_id: str = Field(description="ID of the document to read")
+):
+    if doc_id not in docs:
+        raise ValueError(f"Document with ID {doc_id} not found")
+    
+    return docs[doc_id]
+```
+
+The mcp dev server can be run inside an active virtual environment using the command: `mcp dev mcp_server.py`
