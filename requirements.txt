@@ -3,3 +3,5 @@ python-dotenv
 voyageai
 chromadb
 bm25s
+mcp[cli]
+prompt-toolkit
