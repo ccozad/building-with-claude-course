@@ -579,6 +579,8 @@ Citations are particularly valuable when:
 
 Model Contet Protocol provides a standardozed way to expose complex functionality to large language models.
 
+## Tools
+
 The MCP library has simple annotation mechanism to make a tool available over MCP.
 
 ```python
@@ -610,3 +612,31 @@ def read_document(
 ```
 
 The mcp dev server can be run inside an active virtual environment using the command: `mcp dev mcp_server.py`
+
+## Resources
+
+The MCP library also has an annotation mechanism for resources, which are read only ways yo work with static content.
+
+```python
+from pydantic import Field
+from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("DocumentMCP", log_level="ERROR")
+
+
+docs = {
+    "deposition.md": "This deposition covers the testimony of Angela Smith, P.E.",
+    "report.pdf": "The report details the state of a 20m condenser tower.",
+    "financials.docx": "These financials outline the project's budget and expenditures.",
+    "outlook.pdf": "This document presents the projected future performance of the system.",
+    "plan.md": "The plan outlines the steps for the project's implementation.",
+    "spec.txt": "These specifications define the technical requirements for the equipment.",
+}
+
+@mcp.resource(
+    "docs://documents",
+    mime_type="application/json"
+)
+def list_docs() -> list[str]:
+    return list(docs.keys())
+```
