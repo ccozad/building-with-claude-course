@@ -700,3 +700,32 @@ def format_document(
         base.UserMessage(prompt)
     ]
 ```
+
+# Claude Code
+
+- Discover
+- Design
+- Build
+- Deploy
+- Sopport & Scale
+
+# Workflows
+
+A series of calls to Claude meant to solve a specific problem through a predetermined series of steps
+
+## Parallelization
+
+- Split single task into multiple sub-tasks
+- Run the sub-tasks in parallel
+- Aggregate the results together
+- The parallelized sub -tasks don't need to be identical - each can have a specialized prompt, set of tools, etc.
+
+## Chaining
+
+- Split a large task into smaller non-parallelizable subtasks
+- Optionally, do non-LLM processing in between each task
+- Useful for keeping Claude focused on one aspect of the overall task
+
+# Agents
+
+Claude is given a goal and a set of tools. Claude is expected to figure out how to complete the goal throught the provided tools.
