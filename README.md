@@ -640,3 +640,50 @@ docs = {
 def list_docs() -> list[str]:
     return list(docs.keys())
 ```
+
+## Prompts
+
+Prompts allow reuse for well tested prompts that can be parameterized. They are specified as follows:
+
+```python
+from pydantic import Field
+from mcp.server.fastmcp import FastMCP
+from mcp.server.fastmcp.prompts import base
+
+mcp = FastMCP("DocumentMCP", log_level="ERROR")
+
+docs = {
+    "deposition.md": "This deposition covers the testimony of Angela Smith, P.E.",
+    "report.pdf": "The report details the state of a 20m condenser tower.",
+    "financials.docx": "These financials outline the project's budget and expenditures.",
+    "outlook.pdf": "This document presents the projected future performance of the system.",
+    "plan.md": "The plan outlines the steps for the project's implementation.",
+    "spec.txt": "These specifications define the technical requirements for the equipment.",
+}
+
+@mcp.prompt(
+    name="format",
+    description="Re writes the content of the document in markdown format"
+)
+def format_document(
+    doc_id: str = Field(description="ID of the document to format")
+) -> list[base.Message]:
+    if doc_id not in docs:
+        raise ValueError(f"Document with ID {doc_id} not found")
+    
+    prompt = f"""
+    Your goal is to reformat a document to be written with markdown syntax.
+
+    The ID of the document you need to reformat is
+    <document_id>
+    {doc_id}
+    </document_id>
+
+    Add in headers, bullet points, tables, etc as necessary. Feel free to add in extra formatting.
+    Use the 'edit_document' tool to edit the document. After the document has been reformatted...
+    """
+    
+    return [
+        base.UserMessage(prompt)
+    ]
+```
