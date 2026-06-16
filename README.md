@@ -579,6 +579,19 @@ Citations are particularly valuable when:
 
 Model Contet Protocol provides a standardozed way to expose complex functionality to large language models.
 
+## MCP Server Primatives
+
+- Tools
+   - The model decides when to call and the results are used internally by Claude
+   - Gives additional functionality to Claude
+- Resources
+   - The app decised when to call
+   - Get data into our app and add context
+- Prompts
+   - The user decides when to call
+   - Workflows to run based on user input
+
+
 ## Tools
 
 The MCP library has simple annotation mechanism to make a tool available over MCP.
